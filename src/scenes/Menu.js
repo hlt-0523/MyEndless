@@ -19,9 +19,10 @@ class Menu extends Phaser.Scene {
 
         // game description and controls
         this.add.text(game.config.width / 2, game.config.height / 2, "You've done evil and created a supernova explosion in a galaxy.", menu_config).setOrigin(0.5, 0.5);
-    }
-
-    update() {
-        this.input.on('pointerup', () => {this.scene.start('playScene')});
+        
+        // Add a 'pointerup' event listener to start the game when the canvas is clicked
+        this.input.once('pointerup', () => {
+            this.scene.start('playScene');
+        });
     }
 }

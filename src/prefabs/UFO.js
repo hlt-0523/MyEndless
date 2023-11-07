@@ -14,17 +14,13 @@ class UFO extends Phaser.Physics.Arcade.Sprite {
         this.direction = new Phaser.Math.Vector2(0);
 
         if (cursor.left.isDown) {
-            //this.direction.x -= this.moveSpeed;
-            this.direction.x = -1;//-this.moveSpeed;
+            this.direction.x = -1;
         } else if (cursor.right.isDown) {
-            //this.direction.x += this.moveSpeed;
-            this.direction.x = 1;//this.moveSpeed;
+            this.direction.x = 1;
         } else if (cursor.up.isDown) {
-            //this.direction.y -= this.moveSpeed;
-            this.direction.y = -1;//-this.moveSpeed;
+            this.direction.y = -1;
         } else if (cursor.down.isDown) {
-            //this.direction.y += this.moveSpeed;
-            this.direction.y = 1;// this.moveSpeed;
+            this.direction.y = 1;
         }
         this.direction.normalize();
         this.setVelocityX(this.direction.x * this.velocity);

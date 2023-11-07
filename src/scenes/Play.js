@@ -54,14 +54,14 @@ class Play extends Phaser.Scene {
             frameRate: 4,
             repeat: -1
         });
-
+        
         // create UFO sprite
         this.UFO = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'UFO_anim');
         this.UFO.body.onOverlap = true;
         this.UFO.setCollideWorldBounds(true);
 
         // create rock sprite
-        this.rock = this.physics.add.sprite(Phaser.Math.Between(0, 1)? 0 - 42 : game.config.width + 42, Phaser.Math.Between(0 + 64, game.config.height - 64), 'rock_anim');
+        this.rock = this.physics.add.sprite(Phaser.Math.Between(100, game.config.width - 100), Phaser.Math.Between(100, game.config.height - 100), 'rock_anim');
         this.rock.body.onOverlap = true;
         this.rock.setScale(4);
         this.rock_start_pos = this.rock.x;
@@ -78,6 +78,11 @@ class Play extends Phaser.Scene {
             fontSize: '32px',
             fill: '#FFF'
         });
+
+        // Log positions after creating the sprites
+        console.log(`UFO position: (${this.UFO.x}, ${this.UFO.y})`);
+        console.log(`Rock position: (${this.rock.x}, ${this.rock.y})`);
+
 
         // indicate once spaceship has spawned 
         this.spaceship_active = false;
@@ -100,21 +105,28 @@ class Play extends Phaser.Scene {
             this.spaceship.play('spaceship');
             this.spaceship_active = true;
         }, null, this);
+        
+        this.time.delayedCall(1000, () => {
+            this.physics.add.overlap(this.UFO, this.aerolite, this.aeroliteEnd, null, this);
+            this.physics.add.overlap(this.UFO, this.rock, this.rockEnd, null, this);
+            if (this.spaceship_active) {
+                this.physics.add.overlap(this.UFO, this.spaceship, this.spaceshipEnd, null, this);
+            }
+        }, null, this);
     }
 
     update() {
         this.space_background.tilePositionX += 3;
 
-        this.physics.add.overlap(this.UFO, this.aerolite, null, this.aeroliteEnd(this.UFO, this.aerolite), this);
-        this.physics.add.overlap(this.UFO, this.rock, null, this.rockEnd(this.UFO, this.rock), this);
-        this.physics.overlap(this.UFO, this.aerolite);
-        this.physics.overlap(this.UFO, this.rock);
-
+        this.physics.add.overlap(this.UFO, this.aerolite, this.aeroliteEnd, null, this);
+        this.physics.add.overlap(this.UFO, this.rock, this.rockEnd, null, this);
+        
         if (this.spaceship_active) {
           this.physics.add.overlap(this.UFO, this.spaceship, null, this.spaceshipEnd(this.UFO, this.spaceship), this);
           this.physics.overlap(this.UFO, this.spaceship);
           this.spaceship_move_down(this.spaceship, 10);
         }
+        
         this.move_UFO(this.UFO);
         this.aerolite_move(this.aerolite, 8);
         this.rock_move(this.rock, 6);
@@ -200,36 +212,28 @@ class Play extends Phaser.Scene {
     }
 
     spaceshipEnd(UFO, spaceship) {
-        if (UFO.x > spaceship.x - (spaceship.width / 2) - UFO.width &&
-        UFO.x < spaceship.x &&
-        UFO.y > spaceship.y - UFO.width && 
-        UFO.y < spaceship.y + UFO.width) {
-                this.song.stop();
-                
+        if (this.physics.overlap(UFO, spaceship)) {
+            this.song.stop();
+            let survivalTime = Math.floor((this.time.now - this.startTime) / 1000);
+            this.scene.start('spaceship*UFOScene', { survivalTime: survivalTime });
         }
-        let survivalTime = Math.floor((this.time.now - this.startTime) / 1000);
-        this.scene.start('spaceship*UFOScene', { survivalTime: survivalTime });
     }
 
     rockEnd(UFO, rock) {
-        if (UFO.x > rock.x - (2 * rock.width) &&
-            UFO.x < rock.x - rock.width &&
-            UFO.y > rock.y - rock.height && 
-            UFO.y < rock.y + (1.5 * rock.height)) {
-                this.song.stop();
+
+        if (this.physics.overlap(UFO, rock)) {
+            this.song.stop();
+            let survivalTime = Math.floor((this.time.now - this.startTime) / 1000);
+            this.scene.start('Rock*UFOScene', { survivalTime: survivalTime });
         }
-        let survivalTime = Math.floor((this.time.now - this.startTime) / 1000);
-        this.scene.start('Rock*UFOScene', { survivalTime: survivalTime });
     }
 
     aeroliteEnd(UFO, aerolite) {
-        if (UFO.x > aerolite.x - aerolite.width - UFO.width &&
-            UFO.x < aerolite.x - aerolite.width &&
-            UFO.y > aerolite.y - aerolite.height && 
-            UFO.y < aerolite.y + aerolite.height) {
-                this.song.stop();
+
+        if (this.physics.overlap(UFO, aerolite)) {
+            this.song.stop();
+            let survivalTime = Math.floor((this.time.now - this.startTime) / 1000);
+            this.scene.start('aerolite*UFOScene', { survivalTime: survivalTime });
         }
-        let survivalTime = Math.floor((this.time.now - this.startTime) / 1000);
-        this.scene.start('aerolite*UFOScene', { survivalTime: survivalTime });
     }
 }

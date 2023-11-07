@@ -11,7 +11,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false,
+            debug: true,
         }
     },
     scene: [Menu, Play, aerolite_Fks_UFO, rock_Fks_UFO, spaceship_Fks_UFO]
