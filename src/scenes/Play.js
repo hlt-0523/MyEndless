@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
         // load music
         this.load.audio('background_music', './assets/piano-loop.wav');
 
-        // load animals
+        // load anim
         this.load.atlas('UFO_anim', './assets/UFO_anim.png', './assets/UFO_anim.json');
         this.load.atlas('aerolite_anim', './assets/aerolite_anim.png', './assets/aerolite_anim.json');
         this.load.atlas('rock_anim', './assets/rock_anim.png', './assets/rock_anim.json');
@@ -157,7 +157,6 @@ class Play extends Phaser.Scene {
             predator.x -= speed;
         }
 
-            // reset the position when reached left end of screen
         if (predator.x + predator.width <= 0 || predator.x > game.config.width + predator.width) {
             //predator.x = game.config.width + predator.width * 2;
             predator.x = Phaser.Math.Between(0, 1)? 0 - predator.width : game.config.width + 42;
@@ -174,8 +173,6 @@ class Play extends Phaser.Scene {
             predator.resetFlip()
             predator.x -= speed;
         }
-
-        // reset the position when reached left end of screen
         if (predator.x + predator.width <= 0 || predator.x > game.config.width + predator.width) {
             predator.x = Phaser.Math.Between(0, 1)? 0 - predator.width : game.config.width + 42;
             predator.y = Phaser.Math.Between(0 + 64, game.config.height - 64);
@@ -194,7 +191,6 @@ class Play extends Phaser.Scene {
             predator.y += speed;
         }
 
-        // reset the position when reached either ends on the x axis or bottom of screen
         if (predator.x > game.config.width || predator.x + predator.width <= 0 || predator.y >= game.config.height + predator.width) {
             predator.x = Phaser.Math.Between(0, game.config.width);
             predator.y = 0;

@@ -1,5 +1,5 @@
 { "frames": {
-   "shark 0.": {
+   "rock 0.": {
     "frame": { "x": 0, "y": 0, "w": 64, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 64, "h": 32 },
     "duration": 100
    },
-   "shark 1.": {
+   "rock 1.": {
     "frame": { "x": 0, "y": 32, "w": 64, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 64, "h": 32 },
     "duration": 100
    },
-   "shark 2.": {
+   "rock 2.": {
     "frame": { "x": 0, "y": 64, "w": 64, "h": 32 },
     "rotated": false,
     "trimmed": false,
