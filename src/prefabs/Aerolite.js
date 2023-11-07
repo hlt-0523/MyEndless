@@ -6,7 +6,7 @@ class Aerolite extends Phaser.Physics.Arcade.Sprite {
   
         scene.add.existing(this);
         
-        this.moveSpeed = 8;
+        this.moveSpeed = 4;
     }
 
     update() {

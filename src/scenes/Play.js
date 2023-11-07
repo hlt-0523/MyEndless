@@ -64,12 +64,14 @@ class Play extends Phaser.Scene {
         this.rock = this.physics.add.sprite(Phaser.Math.Between(100, game.config.width - 100), Phaser.Math.Between(100, game.config.height - 100), 'rock_anim');
         this.rock.body.onOverlap = true;
         this.rock.setScale(4);
+        this.rock.body.setSize(this.rock.width * 0.75, this.rock.height * 0.75);
         this.rock_start_pos = this.rock.x;
 
         // create aerolite sprite
         this.aerolite = this.physics.add.sprite(Phaser.Math.Between(0, 1)? 0 - 42 : game.config.width + 42, Phaser.Math.Between(0 + 64, game.config.height - 64), 'aerolite_anim');
         this.aerolite.body.onOverlap = true;
         this.aerolite.setScale(3);
+        this.aerolite.body.setSize(this.aerolite.width * 0.75, this.aerolite.height * 0.75);
         this.aerolite_start_pos = this.aerolite.x;
 
         // create timer
@@ -161,6 +163,8 @@ class Play extends Phaser.Scene {
     }
 
     aerolite_move(predator, speed) {
+        //Difficulty Reduction Patch
+        speed = speed / 2;
         if (this.aerolite_start_pos < 0) {
             predator.setFlip(true, false);
             predator.x += speed;
@@ -178,6 +182,8 @@ class Play extends Phaser.Scene {
      }
 
     rock_move(predator, speed) {
+        //Difficulty Reduction Patch
+        speed = speed / 2;
         if (this.rock_start_pos < 0) {
             predator.setFlip(true, false);
             predator.x += speed;
@@ -193,6 +199,8 @@ class Play extends Phaser.Scene {
     }
 
     spaceship_move_down(predator, speed) {
+        //Difficulty Reduction Patch
+        speed = speed / 2;
         if (this.spaceship_start_pos < game.config.width / 2) {
             predator.setFlip(true, false);
             predator.x += speed;
